@@ -179,6 +179,10 @@ td.muted{color:var(--muted);font-size:12px}
         <a href="#" onclick="openBudgetModal();return false" style="color:var(--accent)">ändern</a>
       </div>
     </div>
+    <div class="kpi" style="background:var(--blue-light)">
+      <div class="klabel">Geschätzt (offen)</div>
+      <div class="kvalue" id="b-geschaetzt" style="color:var(--blue)">—</div>
+    </div>
     <div class="kpi yellow">
       <div class="klabel">Beauftragt</div>
       <div class="kvalue" id="b-beauftragt">—</div>
@@ -188,12 +192,16 @@ td.muted{color:var(--muted);font-size:12px}
       <div class="kvalue" id="b-rechnung">—</div>
     </div>
     <div class="kpi green">
-      <div class="klabel">Bezahlt</div>
+      <div class="klabel">Bezahlt inkl. Auslagen</div>
       <div class="kvalue" id="b-bezahlt">—</div>
     </div>
     <div class="kpi red">
       <div class="klabel">Verbleibendes Budget</div>
       <div class="kvalue" id="b-rest">—</div>
+    </div>
+    <div class="kpi" style="background:#f0ede9">
+      <div class="klabel">⏳ Bis Vermietung</div>
+      <div class="kvalue" id="b-countdown" style="color:var(--accent)">—</div>
     </div>
   </div>
 
@@ -202,13 +210,18 @@ td.muted{color:var(--muted);font-size:12px}
       <strong>Budgetauslastung</strong>
       <span id="b-pct" style="font-size:13px;color:var(--muted)"></span>
     </div>
-    <div class="budget-bar-wrap">
-      <div class="budget-bar" id="b-bar-bezahlt" style="background:var(--green);width:0%"></div>
+    <div class="budget-bar-wrap" style="height:16px;display:flex;border-radius:4px;overflow:hidden">
+      <div id="b-seg-bezahlt" style="height:16px;background:var(--green);transition:width .4s" title="Bezahlt"></div>
+      <div id="b-seg-rechnung" style="height:16px;background:#f0c040;transition:width .4s" title="In Rechnung"></div>
+      <div id="b-seg-beauftragt" style="height:16px;background:#e08030;transition:width .4s" title="Beauftragt"></div>
+      <div id="b-seg-geschaetzt" style="height:16px;background:#7ab0d8;transition:width .4s" title="Geschätzt"></div>
     </div>
-    <div style="display:flex;gap:16px;margin-top:8px;font-size:12px;color:var(--muted)">
-      <span>🟩 Bezahlt</span>
-      <span>🟨 In Rechnung</span>
-      <span>🟧 Beauftragt</span>
+    <div style="display:flex;gap:16px;margin-top:8px;font-size:12px;color:var(--muted);flex-wrap:wrap">
+      <span style="color:var(--green)">■ Bezahlt</span>
+      <span style="color:#c09020">■ In Rechnung</span>
+      <span style="color:#c06020">■ Beauftragt</span>
+      <span style="color:#4a80b0">■ Geschätzt (offen)</span>
+      <span style="color:#888">■ Frei</span>
     </div>
   </div>
 
@@ -362,6 +375,7 @@ td.muted{color:var(--muted);font-size:12px}
         <option value="beauftragt">Beauftragt</option>
       </select>
     </div>
+    <div class="form-row"><label>Schätzwert (Brutto €) — für offene Gewerke</label><input id="gw-schaetz" type="number" step="100" placeholder="z.B. 8000" /></div>
     <div class="form-row"><label>Notiz</label><textarea id="gw-notiz"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('modal-gewerk')">Abbrechen</button>
@@ -699,27 +713,59 @@ function render() {
 // ── BUDGET ──────────────────────────────────────────────────
 function renderBudget() {
   const budgetGesamt = +(einstellungen['budget_gesamt'] || 0);
-  const beauftragt = auftraege.reduce((s, a) => s + (+a.auftragssumme || 0), 0);
-  const inRechnung = rechnungen.reduce((s, r) => s + (+r.betrag || 0), 0);
-  const bezahlt = zahlungen.reduce((s, z) => s + (+z.betrag || 0), 0);
-  const auslagenTotal = auslagen.reduce((s, a) => s + (+a.betrag || 0), 0);
-  const gesamtAusgaben = beauftragt + auslagenTotal;
-  const rest = budgetGesamt - gesamtAusgaben;
-  const pct = budgetGesamt > 0 ? Math.min(100, (bezahlt / budgetGesamt * 100)).toFixed(1) : 0;
 
+  // Beauftragt (Auftragssummen)
+  const beauftragt = auftraege.reduce((s, a) => s + (+a.auftragssumme || 0), 0);
+
+  // Geschätzt: Gewerke mit Schätzwert die noch nicht beauftragt sind
+  const geschaetzt = gewerke
+    .filter(g => g.status === 'offen' && +g.schaetzwert > 0)
+    .reduce((s, g) => s + (+g.schaetzwert || 0), 0);
+
+  // In Rechnung gestellt
+  const inRechnung = rechnungen.reduce((s, r) => s + (+r.betrag || 0), 0);
+
+  // Bezahlt (Zahlungen + Auslagen)
+  const zahlungenTotal = zahlungen.reduce((s, z) => s + (+z.betrag || 0), 0);
+  const auslagenTotal = auslagen.reduce((s, a) => s + (+a.betrag || 0), 0);
+  const bezahltGesamt = zahlungenTotal + auslagenTotal;
+
+  // Verbleibendes Budget
+  const gesamtGeplant = beauftragt + geschaetzt + auslagenTotal;
+  const rest = budgetGesamt - gesamtGeplant;
+
+  // Countdown bis 01.01.2027
+  const countdown = Math.ceil((new Date('2027-01-01') - new Date()) / 86400000);
+
+  // KPIs
   document.getElementById('b-gesamt').textContent = budgetGesamt > 0 ? fmt(budgetGesamt) : '— festlegen';
+  document.getElementById('b-geschaetzt').textContent = fmt(geschaetzt);
   document.getElementById('b-beauftragt').textContent = fmt(beauftragt);
   document.getElementById('b-rechnung').textContent = fmt(inRechnung);
-  document.getElementById('b-bezahlt').textContent = fmt(bezahlt);
+  document.getElementById('b-bezahlt').textContent = fmt(bezahltGesamt);
   document.getElementById('b-rest').textContent = fmt(rest);
   document.getElementById('b-rest').style.color = rest < 0 ? 'var(--red)' : '';
-  document.getElementById('b-pct').textContent = `${pct}% bezahlt`;
+  document.getElementById('b-countdown').textContent = countdown > 0 ? `${countdown}d` : 'Abgelaufen';
+  document.getElementById('b-countdown').style.color = countdown < 60 ? 'var(--red)' : countdown < 180 ? 'var(--yellow)' : 'var(--accent)';
 
-  const bar = document.getElementById('b-bar-bezahlt');
-  bar.style.width = pct + '%';
-  bar.style.background = pct > 90 ? 'var(--red)' : pct > 70 ? 'var(--yellow)' : 'var(--green)';
+  // Gestapelter Balken
+  if (budgetGesamt > 0) {
+    const pBezahlt   = Math.min(100, bezahltGesamt / budgetGesamt * 100).toFixed(1);
+    const pRechnung  = Math.min(100 - pBezahlt, (inRechnung - zahlungenTotal) / budgetGesamt * 100).toFixed(1);
+    const pBeauftragt = Math.min(100 - pBezahlt - pRechnung, (beauftragt - inRechnung) / budgetGesamt * 100).toFixed(1);
+    const pGeschaetzt = Math.min(100 - pBezahlt - pRechnung - pBeauftragt, geschaetzt / budgetGesamt * 100).toFixed(1);
+    const pctLabel = `${(bezahltGesamt / budgetGesamt * 100).toFixed(1)}% bezahlt · ${((beauftragt + geschaetzt) / budgetGesamt * 100).toFixed(1)}% geplant`;
 
-  // Aufträge-Tabelle im Budget
+    document.getElementById('b-seg-bezahlt').style.width    = Math.max(0, pBezahlt) + '%';
+    document.getElementById('b-seg-rechnung').style.width   = Math.max(0, pRechnung) + '%';
+    document.getElementById('b-seg-beauftragt').style.width = Math.max(0, pBeauftragt) + '%';
+    document.getElementById('b-seg-geschaetzt').style.width = Math.max(0, pGeschaetzt) + '%';
+    document.getElementById('b-pct').textContent = pctLabel;
+  } else {
+    document.getElementById('b-pct').textContent = 'Budget noch nicht festgelegt';
+  }
+
+  // Aufträge-Tabelle
   const tbody = document.getElementById('budget-auftraege-body');
   if (!auftraege.length) {
     tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="eicon">📋</div>Noch keine Aufträge</div></td></tr>';
@@ -750,9 +796,20 @@ function renderGewerke() {
   const gwHtml = (list) => list.map(g => {
     const checkClass = g.status === 'beauftragt' ? 'beauftragt' : g.status === 'angeboten' ? 'angeboten' : '';
     const checkIcon = g.status === 'beauftragt' ? '✓' : g.status === 'angeboten' ? '?' : '';
+    // Angebote für dieses Gewerk finden
+    const gwAuftraege = auftraege.filter(a => a.gewerk_id === g.id);
+    const angebotInfo = gwAuftraege.length > 0
+      ? `<span style="font-size:12px;color:var(--muted);margin-left:8px">${gwAuftraege.length} Angebot${gwAuftraege.length > 1 ? 'e' : ''}: ${gwAuftraege.map(a => (a.firma || a.name) + ' ' + fmt(a.angebot || a.auftragssumme)).join(' · ')}</span>`
+      : `<span style="font-size:12px;color:var(--red);margin-left:8px">Kein Angebot</span>`;
+    const schaetzInfo = g.schaetzwert > 0 && g.status === 'offen'
+      ? `<span class="badge badge-blue" style="font-size:11px">Schätzwert: ${fmt(g.schaetzwert)}</span>`
+      : '';
     return `<div class="gewerk-item ${g.status === 'beauftragt' ? 'done' : ''}">
       <div class="gewerk-check ${checkClass}" onclick="toggleGewerk('${g.id}')">${checkIcon}</div>
-      <div class="gewerk-name">${g.name}</div>
+      <div class="gewerk-name">
+        ${g.name} ${schaetzInfo}
+        <div>${angebotInfo}</div>
+      </div>
       <div class="gewerk-status">${statusBadge(g.status)}</div>
       <button class="btn btn-secondary btn-small" onclick="editGewerk('${g.id}')">✏️</button>
       <button class="btn btn-danger btn-small" onclick="deleteGewerk('${g.id}')">🗑</button>
@@ -880,41 +937,65 @@ function renderKontakte() {
 }
 
 // ── GANTT ───────────────────────────────────────────────────
+const ZIELDATUM = new Date('2027-01-01');
+
 function renderGantt() {
   const root = document.getElementById('gantt-root');
   const withDates = auftraege.filter(a => a.start_datum && a.end_datum);
+
   if (!withDates.length) {
     root.innerHTML = '<div class="empty"><div class="eicon">📅</div>Keine Aufträge mit Zeitraum</div>';
     return;
   }
-  const dates = withDates.flatMap(a => [new Date(a.start_datum), new Date(a.end_datum)]);
-  const minD = new Date(Math.min(...dates));
-  const maxD = new Date(Math.max(...dates));
+
+  const allDates = withDates.flatMap(a => [new Date(a.start_datum), new Date(a.end_datum)]);
+  allDates.push(ZIELDATUM);
+  const minD = new Date(Math.min(...allDates));
+  const maxD = new Date(Math.max(...allDates));
   const totalDays = Math.max(1, (maxD - minD) / 86400000 + 1);
 
-  root.innerHTML = `<table style="width:100%;min-width:600px;border-collapse:collapse">
-    <thead><tr>
-      <th style="width:180px;padding:9px 12px;text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;background:#efece7">Gewerk</th>
-      <th style="padding:9px 12px;font-size:11px;color:var(--muted);text-transform:uppercase;background:#efece7">Zeitplan</th>
-    </tr></thead>
-    <tbody>
-    ${withDates.map(a => {
-      const gw = gewerke.find(g => g.id === a.gewerk_id);
-      const s = new Date(a.start_datum), e = new Date(a.end_datum);
-      const left = ((s - minD) / 86400000 / totalDays * 100).toFixed(1);
-      const width = Math.max(1, ((e - s) / 86400000 + 1) / totalDays * 100).toFixed(1);
-      const color = a.status === 'abgeschlossen' ? 'var(--green)' : a.status === 'laufend' ? 'var(--accent)' : '#bbb';
-      return `<tr>
-        <td style="padding:9px 12px;font-size:13px;border-top:1px solid var(--border);white-space:nowrap">${gw ? gw.name : a.name}</td>
-        <td style="padding:9px 12px;border-top:1px solid var(--border)">
-          <div style="position:relative;height:22px">
-            <div style="position:absolute;left:${left}%;width:${width}%;height:18px;top:2px;border-radius:3px;background:${color};opacity:.85" title="${fmtDate(a.start_datum)} – ${fmtDate(a.end_datum)}"></div>
-          </div>
-        </td>
-      </tr>`;
-    }).join('')}
-    </tbody>
-  </table>`;
+  // Position der Ziellinie
+  const zielLeft = ((ZIELDATUM - minD) / 86400000 / totalDays * 100).toFixed(1);
+
+  // Heute-Linie
+  const heute = new Date();
+  const heuteLeft = Math.max(0, Math.min(100, ((heute - minD) / 86400000 / totalDays * 100))).toFixed(1);
+
+  const rows = withDates.map(a => {
+    const gw = gewerke.find(g => g.id === a.gewerk_id);
+    const s = new Date(a.start_datum), e = new Date(a.end_datum);
+    const left = ((s - minD) / 86400000 / totalDays * 100).toFixed(1);
+    const width = Math.max(0.5, ((e - s) / 86400000 + 1) / totalDays * 100).toFixed(1);
+    const color = a.status === 'abgeschlossen' ? 'var(--green)' : a.status === 'laufend' ? 'var(--accent)' : '#bbb';
+    return `<tr>
+      <td style="padding:9px 12px;font-size:13px;border-top:1px solid var(--border);white-space:nowrap">${gw ? gw.name : a.name}</td>
+      <td style="padding:9px 12px;border-top:1px solid var(--border);position:relative">
+        <div style="position:relative;height:22px">
+          <div style="position:absolute;left:${left}%;width:${width}%;height:18px;top:2px;border-radius:3px;background:${color};opacity:.85;z-index:1" title="${fmtDate(a.start_datum)} – ${fmtDate(a.end_datum)}"></div>
+          <!-- Heute -->
+          <div style="position:absolute;left:${heuteLeft}%;width:2px;height:22px;top:0;background:rgba(0,100,200,.4);z-index:2"></div>
+          <!-- Ziel -->
+          <div style="position:absolute;left:${zielLeft}%;width:2px;height:22px;top:0;background:var(--red);z-index:3" title="Ziel: 01.01.2027"></div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  root.innerHTML = `
+    <div style="display:flex;gap:16px;margin-bottom:12px;font-size:12px;flex-wrap:wrap">
+      <span style="color:var(--green)">■ Abgeschlossen</span>
+      <span style="color:var(--accent)">■ Laufend</span>
+      <span style="color:#bbb">■ Geplant</span>
+      <span style="color:rgba(0,100,200,.7)">│ Heute</span>
+      <span style="color:var(--red)">│ Ziel 01.01.2027</span>
+    </div>
+    <table style="width:100%;min-width:600px;border-collapse:collapse">
+      <thead><tr>
+        <th style="width:180px;padding:9px 12px;text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;background:#efece7">Gewerk</th>
+        <th style="padding:9px 12px;font-size:11px;color:var(--muted);text-transform:uppercase;background:#efece7">Zeitplan</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -954,6 +1035,7 @@ function openGewerkModal(id = null) {
   document.getElementById('gw-id').value = id || '';
   document.getElementById('gw-name').value = g?.name || '';
   document.getElementById('gw-status').value = g?.status || 'offen';
+  document.getElementById('gw-schaetz').value = g?.schaetzwert || '';
   document.getElementById('gw-notiz').value = g?.notiz || '';
   openModal('modal-gewerk');
 }
@@ -963,6 +1045,7 @@ async function saveGewerk() {
   const data = {
     name: document.getElementById('gw-name').value.trim(),
     status: document.getElementById('gw-status').value,
+    schaetzwert: +document.getElementById('gw-schaetz').value || 0,
     notiz: document.getElementById('gw-notiz').value.trim()
   };
   if (!data.name) return alert('Bitte Bezeichnung eingeben');
