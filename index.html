@@ -5,117 +5,144 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sanierung · Nebelhornstr. 82</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
 <style>
-  :root {
-    --bg: #f7f5f2;
-    --card: #ffffff;
-    --border: #e2ddd8;
-    --text: #1a1814;
-    --muted: #8a8278;
-    --accent: #c17f3a;
-    --accent-light: #f5ece0;
-    --green: #3a7c5a;
-    --green-light: #e8f4ed;
-    --red: #b84040;
-    --red-light: #faeaea;
-    --yellow: #a07820;
-    --yellow-light: #fdf6e3;
-    --radius: 8px;
-    --shadow: 0 1px 4px rgba(0,0,0,0.08);
-    --font: 'Segoe UI', system-ui, sans-serif;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; }
+:root {
+  --bg: #f5f3ef;
+  --card: #ffffff;
+  --border: #e0dbd4;
+  --text: #1c1a16;
+  --muted: #8c8478;
+  --accent: #b8722e;
+  --accent-light: #f5ece0;
+  --green: #3a7a58;
+  --green-light: #e6f3ed;
+  --red: #b03838;
+  --red-light: #faeaea;
+  --yellow: #9a7618;
+  --yellow-light: #fdf5e0;
+  --blue: #2e6fa0;
+  --blue-light: #e6f0f8;
+  --radius: 7px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+  --font: 'Segoe UI', system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
 
-  /* HEADER */
-  .header { background: var(--text); color: #fff; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
-  .header h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.3px; }
-  .header .sub { font-size: 12px; color: #aaa; margin-left: auto; }
+/* HEADER */
+.header{background:var(--text);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px}
+.header h1{font-size:16px;font-weight:600;letter-spacing:.3px}
+.header .sync{margin-left:auto;font-size:12px;color:#aaa;display:flex;align-items:center;gap:6px}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block}
+.sync-dot.ok{background:#6fcf97}
+.sync-dot.err{background:#eb5757}
 
-  /* TABS */
-  .tabs { display: flex; background: var(--card); border-bottom: 1px solid var(--border); padding: 0 16px; overflow-x: auto; }
-  .tab { padding: 12px 16px; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; color: var(--muted); }
-  .tab.active { border-bottom-color: var(--accent); color: var(--accent); font-weight: 600; }
+/* TABS */
+.tabs{display:flex;background:var(--card);border-bottom:2px solid var(--border);padding:0 16px;overflow-x:auto;gap:2px}
+.tab{padding:11px 14px;font-size:13px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;color:var(--muted);transition:color .15s}
+.tab:hover{color:var(--text)}
+.tab.active{border-bottom-color:var(--accent);color:var(--accent);font-weight:600}
 
-  /* VIEWS */
-  .view { display: none; padding: 16px; }
-  .view.active { display: block; }
+/* VIEWS */
+.view{display:none;padding:16px;max-width:1200px}
+.view.active{display:block}
 
-  /* KPI BAR */
-  .kpi-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; flex: 1; min-width: 120px; }
-  .kpi .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
-  .kpi .value { font-size: 20px; font-weight: 700; margin-top: 2px; }
-  .kpi.accent .value { color: var(--accent); }
-  .kpi.green .value { color: var(--green); }
-  .kpi.red .value { color: var(--red); }
+/* KPI BAR */
+.kpi-bar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;flex:1;min-width:130px;box-shadow:var(--shadow)}
+.kpi .klabel{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.kpi .kvalue{font-size:21px;font-weight:700}
+.kpi.accent .kvalue{color:var(--accent)}
+.kpi.green .kvalue{color:var(--green)}
+.kpi.red .kvalue{color:var(--red)}
+.kpi.blue .kvalue{color:var(--blue)}
+.kpi.yellow .kvalue{color:var(--yellow)}
 
-  /* TOOLBAR */
-  .toolbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
-  .btn { padding: 8px 14px; border-radius: var(--radius); border: none; cursor: pointer; font-size: 13px; font-family: var(--font); font-weight: 500; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
-  .btn:hover { opacity: 0.85; }
+/* TOOLBAR */
+.toolbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.btn{padding:8px 14px;border-radius:var(--radius);border:none;cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;transition:opacity .15s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
+.btn-danger{background:var(--red-light);color:var(--red);border:1px solid #f0c8c8}
+.btn-small{padding:4px 9px;font-size:12px}
+.btn:hover{opacity:.82}
 
-  /* TABLE */
-  .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; }
-  th { background: #f0ede9; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); padding: 8px 12px; text-align: left; }
-  td { padding: 10px 12px; border-top: 1px solid var(--border); vertical-align: top; }
-  tr:hover td { background: #faf8f6; }
-  .expand-row td { background: var(--accent-light); }
+/* TABLE */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse}
+th{background:#efece7;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);padding:9px 12px;text-align:left;white-space:nowrap}
+td{padding:10px 12px;border-top:1px solid var(--border);vertical-align:middle}
+tr:hover td{background:#faf8f5}
+.tr-sub td{background:#faf8f5;font-size:13px}
+.tr-sub:hover td{background:#f3f0eb}
+td.right{text-align:right}
+td.muted{color:var(--muted);font-size:12px}
 
-  /* BADGES */
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-  .badge-green { background: var(--green-light); color: var(--green); }
-  .badge-red { background: var(--red-light); color: var(--red); }
-  .badge-yellow { background: var(--yellow-light); color: var(--yellow); }
-  .badge-gray { background: #eee; color: #666; }
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge-green{background:var(--green-light);color:var(--green)}
+.badge-red{background:var(--red-light);color:var(--red)}
+.badge-yellow{background:var(--yellow-light);color:var(--yellow)}
+.badge-blue{background:var(--blue-light);color:var(--blue)}
+.badge-gray{background:#eee;color:#666}
+.badge-accent{background:var(--accent-light);color:var(--accent)}
 
-  /* MODAL */
-  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
-  .modal-bg.open { display: flex; }
-  .modal { background: var(--card); border-radius: 12px; padding: 24px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; margin: 16px; }
-  .modal h2 { font-size: 16px; margin-bottom: 16px; }
-  .form-row { margin-bottom: 12px; }
-  .form-row label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
-  .form-row input, .form-row select, .form-row textarea {
-    width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius);
-    font-family: var(--font); font-size: 13px; background: var(--bg);
-  }
-  .form-row textarea { height: 70px; resize: vertical; }
-  .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:200;align-items:center;justify-content:center;padding:12px}
+.modal-bg.open{display:flex}
+.modal{background:var(--card);border-radius:12px;padding:24px;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.modal h2{font-size:16px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.form-row{margin-bottom:12px}
+.form-row label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px;font-weight:500}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--font);font-size:13px;background:var(--bg);color:var(--text);transition:border-color .15s}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{outline:none;border-color:var(--accent)}
+.form-row textarea{height:72px;resize:vertical}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.modal-hint{font-size:12px;color:var(--muted);margin-top:6px}
 
-  /* SCAN AREA */
-  .scan-drop { border: 2px dashed var(--border); border-radius: var(--radius); padding: 24px; text-align: center; cursor: pointer; color: var(--muted); margin-bottom: 12px; }
-  .scan-drop:hover { border-color: var(--accent); color: var(--accent); }
-  .scan-preview { max-width: 100%; border-radius: var(--radius); margin-bottom: 12px; }
-  .scan-result { background: var(--accent-light); border-radius: var(--radius); padding: 12px; font-size: 12px; margin-bottom: 12px; }
+/* BUDGET OVERVIEW */
+.budget-bar-wrap{background:#e8e4de;border-radius:4px;height:10px;overflow:hidden;margin-top:8px}
+.budget-bar{height:10px;border-radius:4px;transition:width .4s}
 
-  /* GANTT */
-  .gantt-wrap { overflow-x: auto; }
-  .gantt-table { width: 100%; min-width: 700px; }
-  .gantt-bar-wrap { position: relative; height: 24px; }
-  .gantt-bar { position: absolute; height: 20px; top: 2px; border-radius: 3px; background: var(--accent); opacity: 0.8; }
+/* GEWERKE CHECKLIST */
+.gewerk-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:6px;box-shadow:var(--shadow)}
+.gewerk-item.done{opacity:.55}
+.gewerk-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;font-size:11px}
+.gewerk-check.beauftragt{background:var(--green);border-color:var(--green);color:#fff}
+.gewerk-check.angeboten{background:var(--yellow-light);border-color:var(--yellow);color:var(--yellow)}
+.gewerk-name{flex:1;font-weight:500}
+.gewerk-status{font-size:12px}
 
-  /* LOADING */
-  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* ZAHLUNGEN */
+.zahlung-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)}
+.zahlung-row:first-child{border-top:none}
 
-  /* EMPTY */
-  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
-  .empty .icon { font-size: 32px; margin-bottom: 8px; }
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--text);color:#fff;padding:10px 18px;border-radius:var(--radius);font-size:13px;z-index:999;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.show{opacity:1}
 
-  /* API KEY BANNER */
-  .api-banner { background: var(--yellow-light); border: 1px solid #e0c870; border-radius: var(--radius); padding: 12px 16px; margin-bottom: 16px; font-size: 13px; display: flex; align-items: center; gap: 10px; }
-  .api-banner input { flex: 1; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; }
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty .eicon{font-size:32px;margin-bottom:8px}
 
-  @media (max-width: 600px) {
-    .kpi { min-width: 100px; }
-    .form-2col { grid-template-columns: 1fr; }
-    td, th { font-size: 12px; padding: 8px; }
-  }
+/* SPINNER */
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SECTION HEADER */
+.section-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin:20px 0 10px}
+.section-title:first-child{margin-top:0}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .kpi{min-width:calc(50% - 5px)}
+  .form-2col,.form-3col{grid-template-columns:1fr}
+  td,th{font-size:12px;padding:8px}
+  .hide-mobile{display:none}
+}
 </style>
 </head>
 <body>
@@ -124,33 +151,99 @@
   <div>
     <h1>🏠 Sanierung · Nebelhornstr. 82</h1>
   </div>
-  <div class="sub" id="sync-status">●  Verbinde...</div>
+  <div class="sync">
+    <span class="sync-dot" id="sync-dot"></span>
+    <span id="sync-text">Verbinde...</span>
+  </div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('auftraege',this)">📋 Aufträge</div>
+  <div class="tab active" onclick="switchTab('budget',this)">📊 Budget</div>
+  <div class="tab" onclick="switchTab('gewerke',this)">✅ Gewerke</div>
+  <div class="tab" onclick="switchTab('auftraege',this)">📋 Aufträge</div>
   <div class="tab" onclick="switchTab('rechnungen',this)">🧾 Rechnungen</div>
   <div class="tab" onclick="switchTab('auslagen',this)">💶 Auslagen</div>
+  <div class="tab" onclick="switchTab('kontakte',this)">📞 Kontakte</div>
   <div class="tab" onclick="switchTab('gantt',this)">📅 Zeitplan</div>
-  <div class="tab" onclick="switchTab('einstellungen',this)">⚙️ Einstellungen</div>
 </div>
 
-<!-- API KEY BANNER -->
-<div id="api-banner" class="api-banner" style="margin:12px 16px 0;display:none">
-  ⚠️ Anthropic API Key für Rechnungsscan:
-  <input type="password" id="api-key-input" placeholder="sk-ant-..." />
-  <button class="btn btn-primary" onclick="saveApiKey()">Speichern</button>
-</div>
-
-<!-- ══════════════════════════════════════════════════════ -->
-<!-- AUFTRÄGE -->
-<!-- ══════════════════════════════════════════════════════ -->
-<div class="view active" id="view-auftraege">
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- BUDGET TAB -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="view active" id="view-budget">
   <div class="kpi-bar">
-    <div class="kpi accent"><div class="label">Aufträge gesamt</div><div class="value" id="kpi-auftraege">—</div></div>
-    <div class="kpi"><div class="label">Auftragssumme</div><div class="value" id="kpi-summe">—</div></div>
-    <div class="kpi green"><div class="label">Abgeschlossen</div><div class="value" id="kpi-done">—</div></div>
-    <div class="kpi red"><div class="label">Offen</div><div class="value" id="kpi-offen">—</div></div>
+    <div class="kpi accent">
+      <div class="klabel">Gesamtbudget</div>
+      <div class="kvalue" id="b-gesamt">—</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:3px">
+        <a href="#" onclick="openBudgetModal();return false" style="color:var(--accent)">ändern</a>
+      </div>
+    </div>
+    <div class="kpi yellow">
+      <div class="klabel">Beauftragt</div>
+      <div class="kvalue" id="b-beauftragt">—</div>
+    </div>
+    <div class="kpi blue">
+      <div class="klabel">In Rechnung gestellt</div>
+      <div class="kvalue" id="b-rechnung">—</div>
+    </div>
+    <div class="kpi green">
+      <div class="klabel">Bezahlt</div>
+      <div class="kvalue" id="b-bezahlt">—</div>
+    </div>
+    <div class="kpi red">
+      <div class="klabel">Verbleibendes Budget</div>
+      <div class="kvalue" id="b-rest">—</div>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="padding:16px;margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <strong>Budgetauslastung</strong>
+      <span id="b-pct" style="font-size:13px;color:var(--muted)"></span>
+    </div>
+    <div class="budget-bar-wrap">
+      <div class="budget-bar" id="b-bar-bezahlt" style="background:var(--green);width:0%"></div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:8px;font-size:12px;color:var(--muted)">
+      <span>🟩 Bezahlt</span>
+      <span>🟨 In Rechnung</span>
+      <span>🟧 Beauftragt</span>
+    </div>
+  </div>
+
+  <div class="section-title">Aufträge nach Gewerk</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Gewerk</th><th>Firma</th><th>Auftrag</th><th>Rechnung</th><th>Bezahlt</th><th>Offen</th>
+      </tr></thead>
+      <tbody id="budget-auftraege-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- GEWERKE TAB -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="view" id="view-gewerke">
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="openGewerkModal()">+ Gewerk</button>
+  </div>
+  <div id="gewerke-offen-list"></div>
+  <div class="section-title" style="margin-top:24px">Beauftragt / Abgeschlossen</div>
+  <div id="gewerke-done-list"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- AUFTRÄGE TAB -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="view" id="view-auftraege">
+  <div class="kpi-bar">
+    <div class="kpi accent"><div class="klabel">Aufträge</div><div class="kvalue" id="kpi-a-count">—</div></div>
+    <div class="kpi yellow"><div class="klabel">Auftragssumme</div><div class="kvalue" id="kpi-a-summe">—</div></div>
+    <div class="kpi green"><div class="klabel">Abgeschlossen</div><div class="kvalue" id="kpi-a-done">—</div></div>
+    <div class="kpi red"><div class="klabel">Laufend / Offen</div><div class="kvalue" id="kpi-a-offen">—</div></div>
   </div>
   <div class="toolbar">
     <button class="btn btn-primary" onclick="openAuftragModal()">+ Auftrag</button>
@@ -158,44 +251,43 @@
   <div class="table-wrap">
     <table>
       <thead><tr>
-        <th>Gewerk</th><th>Firma</th><th>Angebot</th><th>Auftrag</th><th>Status</th><th>Zeitraum</th><th></th>
+        <th>Gewerk</th><th>Firma</th><th class="hide-mobile">Angebot</th><th>Auftrag (Brutto)</th><th>Status</th><th class="hide-mobile">Zeitraum</th><th></th>
       </tr></thead>
       <tbody id="auftraege-body"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════ -->
-<!-- RECHNUNGEN -->
-<!-- ══════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- RECHNUNGEN TAB -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <div class="view" id="view-rechnungen">
   <div class="kpi-bar">
-    <div class="kpi"><div class="label">Rechnungen gesamt</div><div class="value" id="kpi-r-total">—</div></div>
-    <div class="kpi green"><div class="label">Bezahlt</div><div class="value" id="kpi-r-bezahlt">—</div></div>
-    <div class="kpi red"><div class="label">Offen</div><div class="value" id="kpi-r-offen">—</div></div>
+    <div class="kpi accent"><div class="klabel">Rechnungssumme</div><div class="kvalue" id="kpi-r-total">—</div></div>
+    <div class="kpi green"><div class="klabel">Bezahlt</div><div class="kvalue" id="kpi-r-bezahlt">—</div></div>
+    <div class="kpi red"><div class="klabel">Offen</div><div class="kvalue" id="kpi-r-offen">—</div></div>
   </div>
   <div class="toolbar">
-    <button class="btn btn-primary" onclick="openScanModal()">📷 Rechnung scannen</button>
-    <button class="btn btn-secondary" onclick="openRechnungModal()">+ Manuell</button>
+    <button class="btn btn-primary" onclick="openRechnungModal()">+ Rechnung</button>
   </div>
   <div class="table-wrap">
     <table>
       <thead><tr>
-        <th>Nr.</th><th>Datum</th><th>Firma / Auftrag</th><th>Betrag</th><th>Art</th><th>Status</th><th></th>
+        <th>Nr.</th><th class="hide-mobile">Datum</th><th>Firma / Auftrag</th><th>Betrag</th><th>Bezahlt</th><th>Status</th><th></th>
       </tr></thead>
       <tbody id="rechnungen-body"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════ -->
-<!-- AUSLAGEN -->
-<!-- ══════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- AUSLAGEN TAB -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <div class="view" id="view-auslagen">
   <div class="kpi-bar">
-    <div class="kpi accent"><div class="label">Auslagen gesamt</div><div class="value" id="kpi-a-total">—</div></div>
-    <div class="kpi"><div class="label">Bar</div><div class="value" id="kpi-a-bar">—</div></div>
-    <div class="kpi"><div class="label">Karte</div><div class="value" id="kpi-a-karte">—</div></div>
+    <div class="kpi accent"><div class="klabel">Auslagen gesamt</div><div class="kvalue" id="kpi-au-total">—</div></div>
+    <div class="kpi"><div class="klabel">Bar</div><div class="kvalue" id="kpi-au-bar">—</div></div>
+    <div class="kpi"><div class="klabel">Karte</div><div class="kvalue" id="kpi-au-karte">—</div></div>
   </div>
   <div class="toolbar">
     <button class="btn btn-primary" onclick="openAuslagenModal()">+ Auslage</button>
@@ -203,51 +295,112 @@
   <div class="table-wrap">
     <table>
       <thead><tr>
-        <th>Datum</th><th>Beschreibung</th><th>Kategorie</th><th>Betrag</th><th>Zahlung</th><th></th>
+        <th>Datum</th><th>Beschreibung</th><th class="hide-mobile">Kategorie</th><th>Betrag</th><th>Zahlung</th><th></th>
       </tr></thead>
       <tbody id="auslagen-body"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════ -->
-<!-- GANTT -->
-<!-- ══════════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- KONTAKTE TAB -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="view" id="view-kontakte">
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="openKontaktModal()">+ Kontakt</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Firma</th><th>Ansprechpartner</th><th>Telefon</th><th class="hide-mobile">E-Mail</th><th></th>
+      </tr></thead>
+      <tbody id="kontakte-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- GANTT TAB -->
+<!-- ══════════════════════════════════════════════════════════ -->
 <div class="view" id="view-gantt">
-  <div class="gantt-wrap">
+  <div style="overflow-x:auto">
     <div id="gantt-root"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════ -->
-<!-- EINSTELLUNGEN -->
-<!-- ══════════════════════════════════════════════════════ -->
-<div class="view" id="view-einstellungen">
-  <div style="max-width:400px">
-    <h3 style="margin-bottom:16px">Anthropic API Key</h3>
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- MODALS -->
+<!-- ══════════════════════════════════════════════════════════ -->
+
+<!-- BUDGET MODAL -->
+<div class="modal-bg" id="modal-budget">
+  <div class="modal">
+    <h2>Budget festlegen</h2>
     <div class="form-row">
-      <label>API Key (für Rechnungsscan)</label>
-      <input type="password" id="settings-api-key" placeholder="sk-ant-..." />
+      <label>Gesamtbudget (Brutto €)</label>
+      <input id="budget-input" type="number" step="1000" placeholder="z.B. 150000" />
     </div>
-    <button class="btn btn-primary" onclick="saveApiKey()">Speichern</button>
-    <p style="margin-top:8px;font-size:12px;color:var(--muted)">Wird nur lokal in diesem Browser gespeichert.</p>
+    <p class="modal-hint">Alle Beträge inkl. MwSt. (Brutto)</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-budget')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveBudget()">Speichern</button>
+    </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════ -->
-<!-- MODALS -->
-<!-- ══════════════════════════════════════════════════════ -->
+<!-- GEWERK MODAL -->
+<div class="modal-bg" id="modal-gewerk">
+  <div class="modal">
+    <h2 id="gewerk-modal-title">Neues Gewerk</h2>
+    <input type="hidden" id="gw-id" />
+    <div class="form-row"><label>Bezeichnung</label><input id="gw-name" placeholder="z.B. Elektro" /></div>
+    <div class="form-row">
+      <label>Status</label>
+      <select id="gw-status">
+        <option value="offen">Offen</option>
+        <option value="angeboten">Angeboten</option>
+        <option value="beauftragt">Beauftragt</option>
+      </select>
+    </div>
+    <div class="form-row"><label>Notiz</label><textarea id="gw-notiz"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-gewerk')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveGewerk()">Speichern</button>
+    </div>
+  </div>
+</div>
 
 <!-- AUFTRAG MODAL -->
 <div class="modal-bg" id="modal-auftrag">
   <div class="modal">
     <h2 id="auftrag-modal-title">Neuer Auftrag</h2>
     <input type="hidden" id="a-id" />
-    <div class="form-row"><label>Gewerk / Bezeichnung</label><input id="a-name" placeholder="z.B. Heizung" /></div>
-    <div class="form-row"><label>Firma</label><input id="a-firma" placeholder="z.B. Mustermann GmbH" /></div>
+    <div class="form-row"><label>Bezeichnung / Gewerk</label><input id="a-name" placeholder="z.B. Heizungsanlage" /></div>
     <div class="form-2col">
-      <div class="form-row"><label>Angebot (€)</label><input id="a-angebot" type="number" step="0.01" /></div>
-      <div class="form-row"><label>Auftragssumme (€)</label><input id="a-auftrag" type="number" step="0.01" /></div>
+      <div class="form-row">
+        <label>Gewerk (Checkliste)</label>
+        <select id="a-gewerk-id"><option value="">— wählen —</option></select>
+      </div>
+      <div class="form-row">
+        <label>Kontakt / Firma</label>
+        <select id="a-kontakt-id"><option value="">— wählen —</option></select>
+      </div>
+    </div>
+    <div class="form-2col">
+      <div class="form-row">
+        <label>Angebotssumme (Brutto €)</label>
+        <input id="a-angebot" type="number" step="0.01" />
+      </div>
+      <div class="form-row">
+        <label>Auftragssumme (Brutto €)</label>
+        <input id="a-auftrag" type="number" step="0.01" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label>
+        <input type="checkbox" id="a-hat-optional" style="width:auto;margin-right:6px" />
+        Angebot enthält optionale Positionen
+      </label>
     </div>
     <div class="form-2col">
       <div class="form-row"><label>Start</label><input id="a-start" type="date" /></div>
@@ -273,11 +426,11 @@
 <!-- RECHNUNG MODAL -->
 <div class="modal-bg" id="modal-rechnung">
   <div class="modal">
-    <h2>Rechnung erfassen</h2>
+    <h2 id="rechnung-modal-title">Rechnung erfassen</h2>
     <input type="hidden" id="r-id" />
     <div class="form-row">
       <label>Auftrag</label>
-      <select id="r-auftrag"><option value="">— kein Auftrag —</option></select>
+      <select id="r-auftrag-id"><option value="">— kein Auftrag —</option></select>
     </div>
     <div class="form-2col">
       <div class="form-row"><label>Rechnungsnr.</label><input id="r-nr" placeholder="2024-001" /></div>
@@ -285,7 +438,7 @@
     </div>
     <div class="form-row"><label>Firma</label><input id="r-firma" /></div>
     <div class="form-2col">
-      <div class="form-row"><label>Betrag (€)</label><input id="r-betrag" type="number" step="0.01" /></div>
+      <div class="form-row"><label>Betrag (Brutto €)</label><input id="r-betrag" type="number" step="0.01" /></div>
       <div class="form-row">
         <label>Art</label>
         <select id="r-art">
@@ -300,53 +453,31 @@
       <label>Status</label>
       <select id="r-status">
         <option value="offen">Offen</option>
+        <option value="teilbezahlt">Teilbezahlt</option>
         <option value="bezahlt">Bezahlt</option>
       </select>
     </div>
     <div class="form-row"><label>Notiz</label><textarea id="r-notiz"></textarea></div>
+
+    <!-- ZAHLUNGEN BEREICH -->
+    <div id="zahlung-bereich" style="display:none">
+      <div style="font-weight:600;margin:14px 0 8px;font-size:13px">Zahlungen</div>
+      <div id="zahlung-list"></div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input id="z-datum" type="date" style="flex:1;padding:7px 9px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px" />
+        <input id="z-betrag" type="number" step="0.01" placeholder="Betrag €" style="flex:1;padding:7px 9px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px" />
+        <select id="z-art" style="flex:1;padding:7px 9px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px">
+          <option value="überweisung">Überweisung</option>
+          <option value="bar">Bar</option>
+          <option value="karte">Karte</option>
+        </select>
+        <button class="btn btn-secondary btn-small" onclick="addZahlung()">+</button>
+      </div>
+    </div>
+
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('modal-rechnung')">Abbrechen</button>
       <button class="btn btn-primary" onclick="saveRechnung()">Speichern</button>
-    </div>
-  </div>
-</div>
-
-<!-- SCAN MODAL -->
-<div class="modal-bg" id="modal-scan">
-  <div class="modal">
-    <h2>📷 Rechnung scannen</h2>
-    <div class="scan-drop" id="scan-drop" onclick="document.getElementById('scan-file').click()">
-      📄 Foto oder PDF hier ablegen<br><small>oder tippen zum Auswählen</small>
-    </div>
-    <input type="file" id="scan-file" accept="image/*,application/pdf" style="display:none" onchange="handleScanFile(this)" />
-    <img id="scan-preview" class="scan-preview" style="display:none" />
-    <div id="scan-result" class="scan-result" style="display:none"></div>
-    <div id="scan-fields" style="display:none">
-      <div class="form-row">
-        <label>Auftrag zuordnen</label>
-        <select id="scan-auftrag"><option value="">— kein Auftrag —</option></select>
-      </div>
-      <div class="form-2col">
-        <div class="form-row"><label>Rechnungsnr.</label><input id="scan-nr" /></div>
-        <div class="form-row"><label>Datum</label><input id="scan-datum" type="date" /></div>
-      </div>
-      <div class="form-2col">
-        <div class="form-row"><label>Firma</label><input id="scan-firma" /></div>
-        <div class="form-row"><label>Betrag (€)</label><input id="scan-betrag" type="number" step="0.01" /></div>
-      </div>
-      <div class="form-row">
-        <label>Art</label>
-        <select id="scan-art">
-          <option value="abschlag">Abschlagsrechnung</option>
-          <option value="schluss">Schlussrechnung</option>
-          <option value="bar">Barzahlung</option>
-          <option value="sonstige">Sonstige</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal('modal-scan')">Abbrechen</button>
-      <button class="btn btn-primary" id="scan-save-btn" style="display:none" onclick="saveScanRechnung()">Speichern</button>
     </div>
   </div>
 </div>
@@ -358,7 +489,7 @@
     <input type="hidden" id="au-id" />
     <div class="form-2col">
       <div class="form-row"><label>Datum</label><input id="au-datum" type="date" /></div>
-      <div class="form-row"><label>Betrag (€)</label><input id="au-betrag" type="number" step="0.01" /></div>
+      <div class="form-row"><label>Betrag (Brutto €)</label><input id="au-betrag" type="number" step="0.01" /></div>
     </div>
     <div class="form-row"><label>Beschreibung</label><input id="au-beschreibung" placeholder="z.B. Farbe Bauhaus" /></div>
     <div class="form-2col">
@@ -389,146 +520,286 @@
   </div>
 </div>
 
+<!-- KONTAKT MODAL -->
+<div class="modal-bg" id="modal-kontakt">
+  <div class="modal">
+    <h2 id="kontakt-modal-title">Neuer Kontakt</h2>
+    <input type="hidden" id="k-id" />
+    <div class="form-row"><label>Firma *</label><input id="k-firma" placeholder="Mustermann GmbH" /></div>
+    <div class="form-row"><label>Ansprechpartner</label><input id="k-person" placeholder="Max Mustermann" /></div>
+    <div class="form-2col">
+      <div class="form-row"><label>Telefon</label><input id="k-telefon" type="tel" placeholder="+49 821 ..." /></div>
+      <div class="form-row"><label>E-Mail</label><input id="k-email" type="email" placeholder="info@..." /></div>
+    </div>
+    <div class="form-row"><label>Adresse</label><input id="k-adresse" placeholder="Musterstr. 1, 86150 Augsburg" /></div>
+    <div class="form-row"><label>Notiz</label><textarea id="k-notiz"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-kontakt')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveKontakt()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
 <script>
-// ═══════════════════════════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://cybqbwgrdxljmwgyxyaj.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5YnFid2dyZHhsam13Z3l4eWFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNjQ1NDEsImV4cCI6MjA5Njc0MDU0MX0.q799DD-9QzktR0IFWX8vrZVOnCShNLRTNyPi-TVi-_o';
+// ═══════════════════════════════════════════════════════════════
+// SUPABASE CONFIG
+// ═══════════════════════════════════════════════════════════════
+const SB_URL = 'https://cybqbwgrdxljmwgyxyaj.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN5YnFid2dyZHhsam13Z3l4eWFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNjQ1NDEsImV4cCI6MjA5Njc0MDU0MX0.q799DD-9QzktR0IFWX8vrZVOnCShNLRTNyPi-TVi-_o';
 
 const SB = {
-  async get(table, order='created_at') {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?order=${order}.asc`, {
-      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
-    });
+  headers: {
+    'apikey': SB_KEY,
+    'Authorization': `Bearer ${SB_KEY}`,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  },
+  async get(table, params='') {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?${params}`, { headers: this.headers });
+    if (!r.ok) throw new Error(`GET ${table} failed: ${r.status}`);
     return r.json();
   },
   async insert(table, data) {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
-      method: 'POST',
-      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
-      body: JSON.stringify(data)
+    const r = await fetch(`${SB_URL}/rest/v1/${table}`, {
+      method: 'POST', headers: this.headers, body: JSON.stringify(data)
     });
+    if (!r.ok) throw new Error(`INSERT ${table} failed: ${r.status}`);
     return r.json();
   },
   async update(table, id, data) {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
-      method: 'PATCH',
-      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
-      body: JSON.stringify(data)
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'PATCH', headers: this.headers, body: JSON.stringify(data)
     });
+    if (!r.ok) throw new Error(`UPDATE ${table} failed: ${r.status}`);
     return r.json();
   },
   async delete(table, id) {
-    await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
-      method: 'DELETE',
-      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'DELETE', headers: this.headers
     });
+    if (!r.ok) throw new Error(`DELETE ${table} failed: ${r.status}`);
+  },
+  async upsert(table, data, onConflict) {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=${onConflict}`, {
+      method: 'POST',
+      headers: { ...this.headers, 'Prefer': 'return=representation,resolution=merge-duplicates' },
+      body: JSON.stringify(data)
+    });
+    if (!r.ok) throw new Error(`UPSERT ${table} failed: ${r.status}`);
+    return r.json();
   }
 };
 
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════════════════
-let auftraege = [], rechnungen = [], auslagen = [];
+// ═══════════════════════════════════════════════════════════════
+let auftraege = [], rechnungen = [], auslagen = [], gewerke = [], kontakte = [], zahlungen = [], einstellungen = {};
+let pendingZahlungen = []; // Zahlungen die noch nicht gespeichert sind (neue Rechnung)
+let editRechnungId = null;
 
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
 async function init() {
   try {
-    [auftraege, rechnungen, auslagen] = await Promise.all([
-      SB.get('nb82_auftraege'),
-      SB.get('nb82_rechnungen'),
-      SB.get('nb82_auslagen')
+    const [a, r, au, g, k, z, e] = await Promise.all([
+      SB.get('nb82_auftraege', 'order=created_at.asc'),
+      SB.get('nb82_rechnungen', 'order=datum.desc'),
+      SB.get('nb82_auslagen', 'order=datum.desc'),
+      SB.get('nb82_gewerke', 'order=reihenfolge.asc'),
+      SB.get('nb82_kontakte', 'order=firma.asc'),
+      SB.get('nb82_zahlungen', 'order=datum.asc'),
+      SB.get('nb82_einstellungen', '')
     ]);
-    document.getElementById('sync-status').textContent = '● Verbunden';
-    document.getElementById('sync-status').style.color = '#6fcf97';
-  } catch(e) {
-    document.getElementById('sync-status').textContent = '● Offline';
-    document.getElementById('sync-status').style.color = '#eb5757';
-  }
-  // Check API key
-  const key = localStorage.getItem('anthropic_key');
-  if (!key) {
-    document.getElementById('api-banner').style.display = 'flex';
+    auftraege = a; rechnungen = r; auslagen = au;
+    gewerke = g; kontakte = k; zahlungen = z;
+    einstellungen = {};
+    e.forEach(x => { einstellungen[x.schluessel] = x.wert; });
+    setSync(true);
+  } catch(err) {
+    setSync(false);
+    console.error(err);
   }
   render();
 }
 
-// ═══════════════════════════════════════════════════════════
+function setSync(ok) {
+  document.getElementById('sync-dot').className = 'sync-dot ' + (ok ? 'ok' : 'err');
+  document.getElementById('sync-text').textContent = ok ? 'Verbunden' : 'Offline';
+}
+
+// ═══════════════════════════════════════════════════════════════
 // TABS
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
 function switchTab(tab, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('view-'+tab).classList.add('active');
+  document.getElementById('view-' + tab).classList.add('active');
   if (tab === 'gantt') renderGantt();
-  if (tab === 'einstellungen') {
-    const k = localStorage.getItem('anthropic_key') || '';
-    document.getElementById('settings-api-key').value = k;
-  }
 }
 
-// ═══════════════════════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════════════════════
-function fmt(n) { return (+n||0).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €'; }
-function fmtDate(d) { if(!d) return '—'; const p=d.split('-'); return `${p[2]}.${p[1]}.${p[0]}`; }
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+function fmt(n) {
+  return (+n || 0).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  const p = d.split('-');
+  return `${p[2]}.${p[1]}.${p[0]}`;
+}
+function today() { return new Date().toISOString().slice(0, 10); }
 
 function statusBadge(s) {
   const map = {
-    geplant: ['badge-gray','Geplant'],
-    beauftragt: ['badge-yellow','Beauftragt'],
-    laufend: ['badge-yellow','Laufend'],
-    abgeschlossen: ['badge-green','Abgeschlossen'],
-    offen: ['badge-red','Offen'],
-    bezahlt: ['badge-green','Bezahlt']
+    geplant: ['badge-gray', 'Geplant'],
+    beauftragt: ['badge-yellow', 'Beauftragt'],
+    laufend: ['badge-blue', 'Laufend'],
+    abgeschlossen: ['badge-green', 'Abgeschlossen'],
+    offen: ['badge-red', 'Offen'],
+    teilbezahlt: ['badge-yellow', 'Teilbezahlt'],
+    bezahlt: ['badge-green', 'Bezahlt'],
+    angeboten: ['badge-accent', 'Angeboten']
   };
   const [cls, label] = map[s] || ['badge-gray', s];
   return `<span class="badge ${cls}">${label}</span>`;
 }
 
+function toast(msg, dur = 2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+// Berechne bezahlten Betrag für eine Rechnung
+function bezahltFuer(rechnungId) {
+  return zahlungen
+    .filter(z => z.rechnung_id === rechnungId)
+    .reduce((s, z) => s + (+z.betrag || 0), 0);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════
 function render() {
+  renderBudget();
+  renderGewerke();
   renderAuftraege();
   renderRechnungen();
   renderAuslagen();
+  renderKontakte();
 }
 
+// ── BUDGET ──────────────────────────────────────────────────
+function renderBudget() {
+  const budgetGesamt = +(einstellungen['budget_gesamt'] || 0);
+  const beauftragt = auftraege.reduce((s, a) => s + (+a.auftragssumme || 0), 0);
+  const inRechnung = rechnungen.reduce((s, r) => s + (+r.betrag || 0), 0);
+  const bezahlt = zahlungen.reduce((s, z) => s + (+z.betrag || 0), 0);
+  const auslagenTotal = auslagen.reduce((s, a) => s + (+a.betrag || 0), 0);
+  const gesamtAusgaben = beauftragt + auslagenTotal;
+  const rest = budgetGesamt - gesamtAusgaben;
+  const pct = budgetGesamt > 0 ? Math.min(100, (bezahlt / budgetGesamt * 100)).toFixed(1) : 0;
+
+  document.getElementById('b-gesamt').textContent = budgetGesamt > 0 ? fmt(budgetGesamt) : '— festlegen';
+  document.getElementById('b-beauftragt').textContent = fmt(beauftragt);
+  document.getElementById('b-rechnung').textContent = fmt(inRechnung);
+  document.getElementById('b-bezahlt').textContent = fmt(bezahlt);
+  document.getElementById('b-rest').textContent = fmt(rest);
+  document.getElementById('b-rest').style.color = rest < 0 ? 'var(--red)' : '';
+  document.getElementById('b-pct').textContent = `${pct}% bezahlt`;
+
+  const bar = document.getElementById('b-bar-bezahlt');
+  bar.style.width = pct + '%';
+  bar.style.background = pct > 90 ? 'var(--red)' : pct > 70 ? 'var(--yellow)' : 'var(--green)';
+
+  // Aufträge-Tabelle im Budget
+  const tbody = document.getElementById('budget-auftraege-body');
+  if (!auftraege.length) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="eicon">📋</div>Noch keine Aufträge</div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = auftraege.map(a => {
+    const gw = gewerke.find(g => g.id === a.gewerk_id);
+    const rList = rechnungen.filter(r => r.auftrag_id === a.id);
+    const rSumme = rList.reduce((s, r) => s + (+r.betrag || 0), 0);
+    const bezahltA = rList.reduce((s, r) => s + bezahltFuer(r.id), 0);
+    const offen = rSumme - bezahltA;
+    return `<tr>
+      <td>${gw ? gw.name : (a.name || '—')}</td>
+      <td>${a.firma || '—'}</td>
+      <td class="right">${fmt(a.auftragssumme)}</td>
+      <td class="right">${fmt(rSumme)}</td>
+      <td class="right" style="color:var(--green)">${fmt(bezahltA)}</td>
+      <td class="right" style="color:${offen > 0 ? 'var(--red)' : 'var(--green)'}">${fmt(offen)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── GEWERKE ─────────────────────────────────────────────────
+function renderGewerke() {
+  const offen = gewerke.filter(g => g.status !== 'beauftragt');
+  const done = gewerke.filter(g => g.status === 'beauftragt');
+
+  const gwHtml = (list) => list.map(g => {
+    const checkClass = g.status === 'beauftragt' ? 'beauftragt' : g.status === 'angeboten' ? 'angeboten' : '';
+    const checkIcon = g.status === 'beauftragt' ? '✓' : g.status === 'angeboten' ? '?' : '';
+    return `<div class="gewerk-item ${g.status === 'beauftragt' ? 'done' : ''}">
+      <div class="gewerk-check ${checkClass}" onclick="toggleGewerk('${g.id}')">${checkIcon}</div>
+      <div class="gewerk-name">${g.name}</div>
+      <div class="gewerk-status">${statusBadge(g.status)}</div>
+      <button class="btn btn-secondary btn-small" onclick="editGewerk('${g.id}')">✏️</button>
+      <button class="btn btn-danger btn-small" onclick="deleteGewerk('${g.id}')">🗑</button>
+    </div>`;
+  }).join('') || '<div style="color:var(--muted);font-size:13px;padding:8px 0">Keine</div>';
+
+  document.getElementById('gewerke-offen-list').innerHTML = gwHtml(offen);
+  document.getElementById('gewerke-done-list').innerHTML = gwHtml(done);
+}
+
+// ── AUFTRÄGE ────────────────────────────────────────────────
 function renderAuftraege() {
-  const summe = auftraege.reduce((s,a) => s + (+a.auftragssumme||0), 0);
+  const summe = auftraege.reduce((s, a) => s + (+a.auftragssumme || 0), 0);
   const done = auftraege.filter(a => a.status === 'abgeschlossen').length;
-  const offen = auftraege.filter(a => a.status !== 'abgeschlossen').length;
-  document.getElementById('kpi-auftraege').textContent = auftraege.length;
-  document.getElementById('kpi-summe').textContent = fmt(summe);
-  document.getElementById('kpi-done').textContent = done;
-  document.getElementById('kpi-offen').textContent = offen;
+  const laufend = auftraege.filter(a => a.status !== 'abgeschlossen').length;
+  document.getElementById('kpi-a-count').textContent = auftraege.length;
+  document.getElementById('kpi-a-summe').textContent = fmt(summe);
+  document.getElementById('kpi-a-done').textContent = done;
+  document.getElementById('kpi-a-offen').textContent = laufend;
 
   const tbody = document.getElementById('auftraege-body');
   if (!auftraege.length) {
-    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="icon">📋</div>Noch keine Aufträge</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="eicon">📋</div>Noch keine Aufträge</div></td></tr>';
     return;
   }
-  tbody.innerHTML = auftraege.map(a => `
-    <tr>
-      <td><strong>${a.name}</strong></td>
-      <td>${a.firma||'—'}</td>
-      <td style="text-align:right">${a.angebot ? fmt(a.angebot) : '—'}</td>
-      <td style="text-align:right">${fmt(a.auftragssumme)}</td>
+  tbody.innerHTML = auftraege.map(a => {
+    const gw = gewerke.find(g => g.id === a.gewerk_id);
+    const kt = kontakte.find(k => k.id === a.kontakt_id);
+    return `<tr>
+      <td><strong>${gw ? gw.name : a.name}</strong>${a.hat_optionale_positionen ? ' <span class="badge badge-accent" style="font-size:10px">+Opt.</span>' : ''}</td>
+      <td>${kt ? kt.firma : (a.firma || '—')}</td>
+      <td class="right hide-mobile">${a.angebot ? fmt(a.angebot) : '—'}</td>
+      <td class="right"><strong>${fmt(a.auftragssumme)}</strong></td>
       <td>${statusBadge(a.status)}</td>
-      <td style="color:var(--muted);font-size:12px">${fmtDate(a.start_datum)}${a.end_datum ? ' – '+fmtDate(a.end_datum) : ''}</td>
-      <td>
-        <button class="btn btn-secondary" style="padding:4px 8px;font-size:12px" onclick="editAuftrag('${a.id}')">✏️</button>
-        <button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;color:var(--red)" onclick="deleteAuftrag('${a.id}')">🗑</button>
+      <td class="muted hide-mobile">${fmtDate(a.start_datum)}${a.end_datum ? ' – ' + fmtDate(a.end_datum) : ''}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-secondary btn-small" onclick="editAuftrag('${a.id}')">✏️</button>
+        <button class="btn btn-danger btn-small" onclick="deleteAuftrag('${a.id}')">🗑</button>
       </td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
 }
 
+// ── RECHNUNGEN ──────────────────────────────────────────────
 function renderRechnungen() {
-  const total = rechnungen.reduce((s,r) => s + (+r.betrag||0), 0);
-  const bezahlt = rechnungen.filter(r => r.status==='bezahlt').reduce((s,r) => s + (+r.betrag||0), 0);
+  const total = rechnungen.reduce((s, r) => s + (+r.betrag || 0), 0);
+  const bezahlt = zahlungen.reduce((s, z) => s + (+z.betrag || 0), 0);
   const offen = total - bezahlt;
   document.getElementById('kpi-r-total').textContent = fmt(total);
   document.getElementById('kpi-r-bezahlt').textContent = fmt(bezahlt);
@@ -536,85 +807,108 @@ function renderRechnungen() {
 
   const tbody = document.getElementById('rechnungen-body');
   if (!rechnungen.length) {
-    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="icon">🧾</div>Noch keine Rechnungen</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><div class="eicon">🧾</div>Noch keine Rechnungen</div></td></tr>';
     return;
   }
   tbody.innerHTML = rechnungen.map(r => {
     const a = auftraege.find(x => x.id === r.auftrag_id);
-    return `
-      <tr>
-        <td>${r.rechnungsnr||'—'}</td>
-        <td>${fmtDate(r.datum)}</td>
-        <td>${r.firma||'—'}${a ? `<br><small style="color:var(--muted)">${a.name}</small>` : ''}</td>
-        <td style="text-align:right"><strong>${fmt(r.betrag)}</strong></td>
-        <td><span class="badge badge-gray">${r.art||'—'}</span></td>
-        <td>${statusBadge(r.status)}</td>
-        <td>
-          <button class="btn btn-secondary" style="padding:4px 8px;font-size:12px" onclick="editRechnung('${r.id}')">✏️</button>
-          <button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;color:var(--red)" onclick="deleteRechnung('${r.id}')">🗑</button>
-        </td>
-      </tr>
-    `;
+    const bez = bezahltFuer(r.id);
+    const restBetrag = (+r.betrag || 0) - bez;
+    // Status automatisch aus Zahlungen ableiten
+    let statusAnzeige = r.status;
+    if (bez >= (+r.betrag || 0) && bez > 0) statusAnzeige = 'bezahlt';
+    else if (bez > 0) statusAnzeige = 'teilbezahlt';
+    return `<tr>
+      <td>${r.rechnungsnr || '—'}</td>
+      <td class="muted hide-mobile">${fmtDate(r.datum)}</td>
+      <td>${r.firma || '—'}${a ? `<br><small style="color:var(--muted)">${a.name}</small>` : ''}</td>
+      <td class="right"><strong>${fmt(r.betrag)}</strong></td>
+      <td class="right" style="color:var(--green)">${fmt(bez)}</td>
+      <td>${statusBadge(statusAnzeige)}</td>
+      <td style="white-space:nowrap">
+        <button class="btn btn-secondary btn-small" onclick="editRechnung('${r.id}')">✏️</button>
+        <button class="btn btn-danger btn-small" onclick="deleteRechnung('${r.id}')">🗑</button>
+      </td>
+    </tr>`;
   }).join('');
 }
 
+// ── AUSLAGEN ────────────────────────────────────────────────
 function renderAuslagen() {
-  const total = auslagen.reduce((s,a) => s + (+a.betrag||0), 0);
-  const bar = auslagen.filter(a => a.zahlung==='bar').reduce((s,a) => s + (+a.betrag||0), 0);
-  const karte = auslagen.filter(a => a.zahlung==='karte').reduce((s,a) => s + (+a.betrag||0), 0);
-  document.getElementById('kpi-a-total').textContent = fmt(total);
-  document.getElementById('kpi-a-bar').textContent = fmt(bar);
-  document.getElementById('kpi-a-karte').textContent = fmt(karte);
+  const total = auslagen.reduce((s, a) => s + (+a.betrag || 0), 0);
+  const bar = auslagen.filter(a => a.zahlung === 'bar').reduce((s, a) => s + (+a.betrag || 0), 0);
+  const karte = auslagen.filter(a => a.zahlung === 'karte').reduce((s, a) => s + (+a.betrag || 0), 0);
+  document.getElementById('kpi-au-total').textContent = fmt(total);
+  document.getElementById('kpi-au-bar').textContent = fmt(bar);
+  document.getElementById('kpi-au-karte').textContent = fmt(karte);
 
   const tbody = document.getElementById('auslagen-body');
   if (!auslagen.length) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="icon">💶</div>Noch keine Auslagen</div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty"><div class="eicon">💶</div>Noch keine Auslagen</div></td></tr>';
     return;
   }
-  tbody.innerHTML = auslagen.map(a => `
-    <tr>
-      <td>${fmtDate(a.datum)}</td>
-      <td>${a.beschreibung}</td>
-      <td><span class="badge badge-gray">${a.kategorie}</span></td>
-      <td style="text-align:right"><strong>${fmt(a.betrag)}</strong></td>
-      <td>${a.zahlung}</td>
-      <td>
-        <button class="btn btn-secondary" style="padding:4px 8px;font-size:12px" onclick="editAuslage('${a.id}')">✏️</button>
-        <button class="btn btn-secondary" style="padding:4px 8px;font-size:12px;color:var(--red)" onclick="deleteAuslage('${a.id}')">🗑</button>
-      </td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = auslagen.map(a => `<tr>
+    <td>${fmtDate(a.datum)}</td>
+    <td>${a.beschreibung}</td>
+    <td class="hide-mobile"><span class="badge badge-gray">${a.kategorie}</span></td>
+    <td class="right"><strong>${fmt(a.betrag)}</strong></td>
+    <td>${a.zahlung}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-secondary btn-small" onclick="editAuslage('${a.id}')">✏️</button>
+      <button class="btn btn-danger btn-small" onclick="deleteAuslage('${a.id}')">🗑</button>
+    </td>
+  </tr>`).join('');
 }
 
-// ═══════════════════════════════════════════════════════════
-// GANTT
-// ═══════════════════════════════════════════════════════════
+// ── KONTAKTE ────────────────────────────────────────────────
+function renderKontakte() {
+  const tbody = document.getElementById('kontakte-body');
+  if (!kontakte.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="eicon">📞</div>Noch keine Kontakte</div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = kontakte.map(k => `<tr>
+    <td><strong>${k.firma}</strong></td>
+    <td>${k.ansprechpartner || '—'}</td>
+    <td>${k.telefon ? `<a href="tel:${k.telefon}" style="color:var(--accent)">${k.telefon}</a>` : '—'}</td>
+    <td class="hide-mobile">${k.email ? `<a href="mailto:${k.email}" style="color:var(--accent)">${k.email}</a>` : '—'}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-secondary btn-small" onclick="editKontakt('${k.id}')">✏️</button>
+      <button class="btn btn-danger btn-small" onclick="deleteKontakt('${k.id}')">🗑</button>
+    </td>
+  </tr>`).join('');
+}
+
+// ── GANTT ───────────────────────────────────────────────────
 function renderGantt() {
   const root = document.getElementById('gantt-root');
   const withDates = auftraege.filter(a => a.start_datum && a.end_datum);
-  if (!withDates.length) { root.innerHTML = '<div class="empty"><div class="icon">📅</div>Keine Aufträge mit Zeitraum</div>'; return; }
+  if (!withDates.length) {
+    root.innerHTML = '<div class="empty"><div class="eicon">📅</div>Keine Aufträge mit Zeitraum</div>';
+    return;
+  }
   const dates = withDates.flatMap(a => [new Date(a.start_datum), new Date(a.end_datum)]);
   const minD = new Date(Math.min(...dates));
   const maxD = new Date(Math.max(...dates));
-  const totalDays = (maxD - minD) / 86400000 + 1;
+  const totalDays = Math.max(1, (maxD - minD) / 86400000 + 1);
 
-  root.innerHTML = `<table class="gantt-table" style="border-collapse:collapse">
+  root.innerHTML = `<table style="width:100%;min-width:600px;border-collapse:collapse">
     <thead><tr>
-      <th style="width:160px;padding:8px;text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase">Gewerk</th>
-      <th style="padding:8px;font-size:11px;color:var(--muted);text-transform:uppercase">Zeitplan</th>
+      <th style="width:180px;padding:9px 12px;text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;background:#efece7">Gewerk</th>
+      <th style="padding:9px 12px;font-size:11px;color:var(--muted);text-transform:uppercase;background:#efece7">Zeitplan</th>
     </tr></thead>
     <tbody>
     ${withDates.map(a => {
-      const s = new Date(a.start_datum);
-      const e = new Date(a.end_datum);
+      const gw = gewerke.find(g => g.id === a.gewerk_id);
+      const s = new Date(a.start_datum), e = new Date(a.end_datum);
       const left = ((s - minD) / 86400000 / totalDays * 100).toFixed(1);
       const width = Math.max(1, ((e - s) / 86400000 + 1) / totalDays * 100).toFixed(1);
-      const color = a.status === 'abgeschlossen' ? 'var(--green)' : a.status === 'laufend' ? 'var(--accent)' : '#aaa';
+      const color = a.status === 'abgeschlossen' ? 'var(--green)' : a.status === 'laufend' ? 'var(--accent)' : '#bbb';
       return `<tr>
-        <td style="padding:8px;font-size:13px;white-space:nowrap;border-top:1px solid var(--border)">${a.name}</td>
-        <td style="padding:8px;border-top:1px solid var(--border)">
-          <div class="gantt-bar-wrap">
-            <div class="gantt-bar" style="left:${left}%;width:${width}%;background:${color}" title="${fmtDate(a.start_datum)} – ${fmtDate(a.end_datum)}"></div>
+        <td style="padding:9px 12px;font-size:13px;border-top:1px solid var(--border);white-space:nowrap">${gw ? gw.name : a.name}</td>
+        <td style="padding:9px 12px;border-top:1px solid var(--border)">
+          <div style="position:relative;height:22px">
+            <div style="position:absolute;left:${left}%;width:${width}%;height:18px;top:2px;border-radius:3px;background:${color};opacity:.85" title="${fmtDate(a.start_datum)} – ${fmtDate(a.end_datum)}"></div>
           </div>
         </td>
       </tr>`;
@@ -623,31 +917,94 @@ function renderGantt() {
   </table>`;
 }
 
-// ═══════════════════════════════════════════════════════════
-// MODALS
-// ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// MODAL HELPERS
+// ═══════════════════════════════════════════════════════════════
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-function fillAuftragSelect(selId, val='') {
+function fillSelect(selId, items, valField, labelFn, currentVal = '') {
   const sel = document.getElementById(selId);
-  sel.innerHTML = '<option value="">— kein Auftrag —</option>' +
-    auftraege.map(a => `<option value="${a.id}" ${a.id==val?'selected':''}>${a.name} (${a.firma||'—'})</option>`).join('');
+  sel.innerHTML = '<option value="">— wählen —</option>' +
+    items.map(i => `<option value="${i[valField]}" ${i[valField] == currentVal ? 'selected' : ''}>${labelFn(i)}</option>`).join('');
 }
 
-// ── AUFTRAG ──
-function openAuftragModal(id=null) {
+// ═══════════════════════════════════════════════════════════════
+// BUDGET
+// ═══════════════════════════════════════════════════════════════
+function openBudgetModal() {
+  document.getElementById('budget-input').value = einstellungen['budget_gesamt'] || '';
+  openModal('modal-budget');
+}
+async function saveBudget() {
+  const val = document.getElementById('budget-input').value;
+  await SB.upsert('nb82_einstellungen', { schluessel: 'budget_gesamt', wert: val, updated_at: new Date().toISOString() }, 'schluessel');
+  einstellungen['budget_gesamt'] = val;
+  closeModal('modal-budget');
+  render();
+  toast('Budget gespeichert');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GEWERKE
+// ═══════════════════════════════════════════════════════════════
+function openGewerkModal(id = null) {
+  document.getElementById('gewerk-modal-title').textContent = id ? 'Gewerk bearbeiten' : 'Neues Gewerk';
+  const g = id ? gewerke.find(x => x.id === id) : null;
+  document.getElementById('gw-id').value = id || '';
+  document.getElementById('gw-name').value = g?.name || '';
+  document.getElementById('gw-status').value = g?.status || 'offen';
+  document.getElementById('gw-notiz').value = g?.notiz || '';
+  openModal('modal-gewerk');
+}
+function editGewerk(id) { openGewerkModal(id); }
+async function saveGewerk() {
+  const id = document.getElementById('gw-id').value;
+  const data = {
+    name: document.getElementById('gw-name').value.trim(),
+    status: document.getElementById('gw-status').value,
+    notiz: document.getElementById('gw-notiz').value.trim()
+  };
+  if (!data.name) return alert('Bitte Bezeichnung eingeben');
+  if (id) await SB.update('nb82_gewerke', id, data);
+  else await SB.insert('nb82_gewerke', data);
+  gewerke = await SB.get('nb82_gewerke', 'order=reihenfolge.asc');
+  closeModal('modal-gewerk');
+  render();
+  toast('Gewerk gespeichert');
+}
+async function toggleGewerk(id) {
+  const g = gewerke.find(x => x.id === id);
+  if (!g) return;
+  const next = g.status === 'offen' ? 'angeboten' : g.status === 'angeboten' ? 'beauftragt' : 'offen';
+  await SB.update('nb82_gewerke', id, { status: next });
+  gewerke = await SB.get('nb82_gewerke', 'order=reihenfolge.asc');
+  render();
+}
+async function deleteGewerk(id) {
+  if (!confirm('Gewerk löschen?')) return;
+  await SB.delete('nb82_gewerke', id);
+  gewerke = await SB.get('nb82_gewerke', 'order=reihenfolge.asc');
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AUFTRÄGE
+// ═══════════════════════════════════════════════════════════════
+function openAuftragModal(id = null) {
   document.getElementById('auftrag-modal-title').textContent = id ? 'Auftrag bearbeiten' : 'Neuer Auftrag';
-  const a = id ? auftraege.find(x=>x.id===id) : null;
-  document.getElementById('a-id').value = id||'';
-  document.getElementById('a-name').value = a?.name||'';
-  document.getElementById('a-firma').value = a?.firma||'';
-  document.getElementById('a-angebot').value = a?.angebot||'';
-  document.getElementById('a-auftrag').value = a?.auftragssumme||'';
-  document.getElementById('a-start').value = a?.start_datum||'';
-  document.getElementById('a-end').value = a?.end_datum||'';
-  document.getElementById('a-status').value = a?.status||'geplant';
-  document.getElementById('a-notizen').value = a?.notizen||'';
+  const a = id ? auftraege.find(x => x.id === id) : null;
+  document.getElementById('a-id').value = id || '';
+  document.getElementById('a-name').value = a?.name || '';
+  document.getElementById('a-angebot').value = a?.angebot || '';
+  document.getElementById('a-auftrag').value = a?.auftragssumme || '';
+  document.getElementById('a-start').value = a?.start_datum || '';
+  document.getElementById('a-end').value = a?.end_datum || '';
+  document.getElementById('a-status').value = a?.status || 'geplant';
+  document.getElementById('a-notizen').value = a?.notizen || '';
+  document.getElementById('a-hat-optional').checked = a?.hat_optionale_positionen || false;
+  fillSelect('a-gewerk-id', gewerke, 'id', g => g.name, a?.gewerk_id || '');
+  fillSelect('a-kontakt-id', kontakte, 'id', k => k.firma, a?.kontakt_id || '');
   openModal('modal-auftrag');
 }
 function editAuftrag(id) { openAuftragModal(id); }
@@ -655,169 +1012,159 @@ async function saveAuftrag() {
   const id = document.getElementById('a-id').value;
   const data = {
     name: document.getElementById('a-name').value.trim(),
-    firma: document.getElementById('a-firma').value.trim(),
-    angebot: +document.getElementById('a-angebot').value||null,
-    auftragssumme: +document.getElementById('a-auftrag').value||0,
-    start_datum: document.getElementById('a-start').value||null,
-    end_datum: document.getElementById('a-end').value||null,
+    angebot: +document.getElementById('a-angebot').value || null,
+    auftragssumme: +document.getElementById('a-auftrag').value || 0,
+    start_datum: document.getElementById('a-start').value || null,
+    end_datum: document.getElementById('a-end').value || null,
     status: document.getElementById('a-status').value,
-    notizen: document.getElementById('a-notizen').value.trim()
+    notizen: document.getElementById('a-notizen').value.trim(),
+    hat_optionale_positionen: document.getElementById('a-hat-optional').checked,
+    gewerk_id: document.getElementById('a-gewerk-id').value || null,
+    kontakt_id: document.getElementById('a-kontakt-id').value || null
   };
   if (!data.name) return alert('Bitte Bezeichnung eingeben');
-  if (id) { await SB.update('nb82_auftraege', id, data); }
-  else { await SB.insert('nb82_auftraege', data); }
+
+  // Gewerk automatisch auf "beauftragt" setzen wenn Auftrag beauftragt/laufend/abgeschlossen
+  if (data.gewerk_id && ['beauftragt', 'laufend', 'abgeschlossen'].includes(data.status)) {
+    await SB.update('nb82_gewerke', data.gewerk_id, { status: 'beauftragt' });
+    gewerke = await SB.get('nb82_gewerke', 'order=reihenfolge.asc');
+  }
+
+  if (id) await SB.update('nb82_auftraege', id, data);
+  else await SB.insert('nb82_auftraege', data);
+  auftraege = await SB.get('nb82_auftraege', 'order=created_at.asc');
   closeModal('modal-auftrag');
-  auftraege = await SB.get('nb82_auftraege');
   render();
+  toast('Auftrag gespeichert');
 }
 async function deleteAuftrag(id) {
   if (!confirm('Auftrag löschen?')) return;
   await SB.delete('nb82_auftraege', id);
-  auftraege = await SB.get('nb82_auftraege');
+  auftraege = await SB.get('nb82_auftraege', 'order=created_at.asc');
   render();
+  toast('Auftrag gelöscht');
 }
 
-// ── RECHNUNG ──
-function openRechnungModal(id=null) {
-  fillAuftragSelect('r-auftrag', id ? rechnungen.find(x=>x.id===id)?.auftrag_id : '');
-  const r = id ? rechnungen.find(x=>x.id===id) : null;
-  document.getElementById('r-id').value = id||'';
-  document.getElementById('r-nr').value = r?.rechnungsnr||'';
-  document.getElementById('r-datum').value = r?.datum||new Date().toISOString().slice(0,10);
-  document.getElementById('r-firma').value = r?.firma||'';
-  document.getElementById('r-betrag').value = r?.betrag||'';
-  document.getElementById('r-art').value = r?.art||'abschlag';
-  document.getElementById('r-status').value = r?.status||'offen';
-  document.getElementById('r-notiz').value = r?.notiz||'';
+// ═══════════════════════════════════════════════════════════════
+// RECHNUNGEN
+// ═══════════════════════════════════════════════════════════════
+function openRechnungModal(id = null) {
+  editRechnungId = id;
+  pendingZahlungen = [];
+  document.getElementById('rechnung-modal-title').textContent = id ? 'Rechnung bearbeiten' : 'Rechnung erfassen';
+  const r = id ? rechnungen.find(x => x.id === id) : null;
+  document.getElementById('r-id').value = id || '';
+  document.getElementById('r-nr').value = r?.rechnungsnr || '';
+  document.getElementById('r-datum').value = r?.datum || today();
+  document.getElementById('r-firma').value = r?.firma || '';
+  document.getElementById('r-betrag').value = r?.betrag || '';
+  document.getElementById('r-art').value = r?.art || 'abschlag';
+  document.getElementById('r-status').value = r?.status || 'offen';
+  document.getElementById('r-notiz').value = r?.notiz || '';
+  fillSelect('r-auftrag-id', auftraege, 'id', a => `${a.name}${a.firma ? ' – ' + a.firma : ''}`, r?.auftrag_id || '');
+
+  // Zahlungen anzeigen
+  const zBereich = document.getElementById('zahlung-bereich');
+  zBereich.style.display = id ? 'block' : 'block'; // immer zeigen
+  document.getElementById('z-datum').value = today();
+  document.getElementById('z-betrag').value = '';
+  renderZahlungList(id);
+
   openModal('modal-rechnung');
 }
 function editRechnung(id) { openRechnungModal(id); }
+
+function renderZahlungList(rechnungId) {
+  const list = document.getElementById('zahlung-list');
+  const existing = rechnungId ? zahlungen.filter(z => z.rechnung_id === rechnungId) : [];
+  const all = [...existing, ...pendingZahlungen];
+  if (!all.length) { list.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:4px 0">Noch keine Zahlungen</div>'; return; }
+  list.innerHTML = all.map((z, i) => `
+    <div class="zahlung-row">
+      <span style="flex:1">${fmtDate(z.datum)}</span>
+      <span style="flex:1;text-align:right;font-weight:600">${fmt(z.betrag)}</span>
+      <span style="flex:1;color:var(--muted)">${z.zahlungsart || z.art || '—'}</span>
+      ${!z.id ? `<button class="btn btn-danger btn-small" onclick="removePendingZahlung(${i - existing.length})">✕</button>` : ''}
+    </div>
+  `).join('');
+}
+
+function addZahlung() {
+  const datum = document.getElementById('z-datum').value;
+  const betrag = +document.getElementById('z-betrag').value;
+  const art = document.getElementById('z-art').value;
+  if (!datum || !betrag) return alert('Datum und Betrag eingeben');
+  pendingZahlungen.push({ datum, betrag, zahlungsart: art });
+  document.getElementById('z-betrag').value = '';
+  renderZahlungList(editRechnungId);
+}
+
+function removePendingZahlung(idx) {
+  pendingZahlungen.splice(idx, 1);
+  renderZahlungList(editRechnungId);
+}
+
 async function saveRechnung() {
   const id = document.getElementById('r-id').value;
   const data = {
-    auftrag_id: document.getElementById('r-auftrag').value||null,
+    auftrag_id: document.getElementById('r-auftrag-id').value || null,
     rechnungsnr: document.getElementById('r-nr').value.trim(),
     datum: document.getElementById('r-datum').value,
     firma: document.getElementById('r-firma').value.trim(),
-    betrag: +document.getElementById('r-betrag').value||0,
+    betrag: +document.getElementById('r-betrag').value || 0,
     art: document.getElementById('r-art').value,
     status: document.getElementById('r-status').value,
     notiz: document.getElementById('r-notiz').value.trim()
   };
-  if (id) { await SB.update('nb82_rechnungen', id, data); }
-  else { await SB.insert('nb82_rechnungen', data); }
-  closeModal('modal-rechnung');
-  rechnungen = await SB.get('nb82_rechnungen');
-  render();
-}
-async function deleteRechnung(id) {
-  if (!confirm('Rechnung löschen?')) return;
-  await SB.delete('nb82_rechnungen', id);
-  rechnungen = await SB.get('nb82_rechnungen');
-  render();
-}
 
-// ── SCAN ──
-let scanImageData = null;
-function openScanModal() {
-  scanImageData = null;
-  document.getElementById('scan-preview').style.display = 'none';
-  document.getElementById('scan-result').style.display = 'none';
-  document.getElementById('scan-fields').style.display = 'none';
-  document.getElementById('scan-save-btn').style.display = 'none';
-  document.getElementById('scan-file').value = '';
-  fillAuftragSelect('scan-auftrag');
-  openModal('modal-scan');
-}
-
-function handleScanFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = async e => {
-    const base64 = e.target.result.split(',')[1];
-    const mime = file.type || 'image/jpeg';
-    scanImageData = { base64, mime };
-    if (file.type.startsWith('image/')) {
-      document.getElementById('scan-preview').src = e.target.result;
-      document.getElementById('scan-preview').style.display = 'block';
-    }
-    await analyzeScan(base64, mime);
-  };
-  reader.readAsDataURL(file);
-}
-
-async function analyzeScan(base64, mime) {
-  const key = localStorage.getItem('anthropic_key');
-  if (!key) { alert('Bitte zuerst Anthropic API Key in Einstellungen eintragen.'); return; }
-  const result = document.getElementById('scan-result');
-  result.style.display = 'block';
-  result.innerHTML = '<span class="spinner"></span> Analysiere Rechnung...';
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': key,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 500,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: mime, data: base64 } },
-            { type: 'text', text: 'Extrahiere aus dieser Rechnung: Rechnungsnummer, Datum (YYYY-MM-DD), Firmenname, Gesamtbetrag (nur Zahl). Antworte NUR mit JSON: {"nr":"...","datum":"...","firma":"...","betrag":0}' }
-          ]
-        }]
-      })
-    });
-    const data = await resp.json();
-    const text = data.content?.[0]?.text || '{}';
-    const clean = text.replace(/```json|```/g,'').trim();
-    const parsed = JSON.parse(clean);
-    result.innerHTML = `✅ Erkannt: <strong>${parsed.firma||'—'}</strong>, ${parsed.datum||'—'}, ${parsed.betrag ? fmt(parsed.betrag) : '—'}`;
-    document.getElementById('scan-nr').value = parsed.nr||'';
-    document.getElementById('scan-datum').value = parsed.datum||new Date().toISOString().slice(0,10);
-    document.getElementById('scan-firma').value = parsed.firma||'';
-    document.getElementById('scan-betrag').value = parsed.betrag||'';
-    document.getElementById('scan-fields').style.display = 'block';
-    document.getElementById('scan-save-btn').style.display = 'inline-block';
-  } catch(e) {
-    result.innerHTML = `❌ Fehler: ${e.message}`;
+  let rechnungId = id;
+  if (id) {
+    await SB.update('nb82_rechnungen', id, data);
+  } else {
+    const res = await SB.insert('nb82_rechnungen', data);
+    rechnungId = res[0]?.id;
   }
-}
 
-async function saveScanRechnung() {
-  const data = {
-    auftrag_id: document.getElementById('scan-auftrag').value||null,
-    rechnungsnr: document.getElementById('scan-nr').value.trim(),
-    datum: document.getElementById('scan-datum').value,
-    firma: document.getElementById('scan-firma').value.trim(),
-    betrag: +document.getElementById('scan-betrag').value||0,
-    art: document.getElementById('scan-art').value,
-    status: 'offen',
-    notiz: ''
-  };
-  await SB.insert('nb82_rechnungen', data);
-  closeModal('modal-scan');
-  rechnungen = await SB.get('nb82_rechnungen');
+  // Pending Zahlungen speichern
+  for (const z of pendingZahlungen) {
+    await SB.insert('nb82_zahlungen', {
+      rechnung_id: rechnungId,
+      datum: z.datum,
+      betrag: z.betrag,
+      zahlungsart: z.zahlungsart
+    });
+  }
+  pendingZahlungen = [];
+
+  rechnungen = await SB.get('nb82_rechnungen', 'order=datum.desc');
+  zahlungen = await SB.get('nb82_zahlungen', 'order=datum.asc');
+  closeModal('modal-rechnung');
   render();
+  toast('Rechnung gespeichert');
 }
 
-// ── AUSLAGEN ──
-function openAuslagenModal(id=null) {
+async function deleteRechnung(id) {
+  if (!confirm('Rechnung und alle Zahlungen löschen?')) return;
+  await SB.delete('nb82_rechnungen', id);
+  rechnungen = await SB.get('nb82_rechnungen', 'order=datum.desc');
+  zahlungen = await SB.get('nb82_zahlungen', 'order=datum.asc');
+  render();
+  toast('Rechnung gelöscht');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AUSLAGEN
+// ═══════════════════════════════════════════════════════════════
+function openAuslagenModal(id = null) {
   document.getElementById('auslagen-modal-title').textContent = id ? 'Auslage bearbeiten' : 'Neue Auslage';
-  const a = id ? auslagen.find(x=>x.id===id) : null;
-  document.getElementById('au-id').value = id||'';
-  document.getElementById('au-datum').value = a?.datum||new Date().toISOString().slice(0,10);
-  document.getElementById('au-betrag').value = a?.betrag||'';
-  document.getElementById('au-beschreibung').value = a?.beschreibung||'';
-  document.getElementById('au-kategorie').value = a?.kategorie||'Material';
-  document.getElementById('au-zahlung').value = a?.zahlung||'bar';
-  document.getElementById('au-notiz').value = a?.notiz||'';
+  const a = id ? auslagen.find(x => x.id === id) : null;
+  document.getElementById('au-id').value = id || '';
+  document.getElementById('au-datum').value = a?.datum || today();
+  document.getElementById('au-betrag').value = a?.betrag || '';
+  document.getElementById('au-beschreibung').value = a?.beschreibung || '';
+  document.getElementById('au-kategorie').value = a?.kategorie || 'Material';
+  document.getElementById('au-zahlung').value = a?.zahlung || 'bar';
+  document.getElementById('au-notiz').value = a?.notiz || '';
   openModal('modal-auslagen');
 }
 function editAuslage(id) { openAuslagenModal(id); }
@@ -825,55 +1172,80 @@ async function saveAuslage() {
   const id = document.getElementById('au-id').value;
   const data = {
     datum: document.getElementById('au-datum').value,
-    betrag: +document.getElementById('au-betrag').value||0,
+    betrag: +document.getElementById('au-betrag').value || 0,
     beschreibung: document.getElementById('au-beschreibung').value.trim(),
     kategorie: document.getElementById('au-kategorie').value,
     zahlung: document.getElementById('au-zahlung').value,
     notiz: document.getElementById('au-notiz').value.trim()
   };
   if (!data.beschreibung) return alert('Bitte Beschreibung eingeben');
-  if (id) { await SB.update('nb82_auslagen', id, data); }
-  else { await SB.insert('nb82_auslagen', data); }
+  if (id) await SB.update('nb82_auslagen', id, data);
+  else await SB.insert('nb82_auslagen', data);
+  auslagen = await SB.get('nb82_auslagen', 'order=datum.desc');
   closeModal('modal-auslagen');
-  auslagen = await SB.get('nb82_auslagen');
   render();
+  toast('Auslage gespeichert');
 }
 async function deleteAuslage(id) {
   if (!confirm('Auslage löschen?')) return;
   await SB.delete('nb82_auslagen', id);
-  auslagen = await SB.get('nb82_auslagen');
+  auslagen = await SB.get('nb82_auslagen', 'order=datum.desc');
   render();
+  toast('Auslage gelöscht');
 }
 
-// ── API KEY ──
-function saveApiKey() {
-  const key = document.getElementById('api-key-input')?.value ||
-               document.getElementById('settings-api-key')?.value;
-  if (!key) return;
-  localStorage.setItem('anthropic_key', key);
-  document.getElementById('api-banner').style.display = 'none';
-  alert('API Key gespeichert.');
+// ═══════════════════════════════════════════════════════════════
+// KONTAKTE
+// ═══════════════════════════════════════════════════════════════
+function openKontaktModal(id = null) {
+  document.getElementById('kontakt-modal-title').textContent = id ? 'Kontakt bearbeiten' : 'Neuer Kontakt';
+  const k = id ? kontakte.find(x => x.id === id) : null;
+  document.getElementById('k-id').value = id || '';
+  document.getElementById('k-firma').value = k?.firma || '';
+  document.getElementById('k-person').value = k?.ansprechpartner || '';
+  document.getElementById('k-telefon').value = k?.telefon || '';
+  document.getElementById('k-email').value = k?.email || '';
+  document.getElementById('k-adresse').value = k?.adresse || '';
+  document.getElementById('k-notiz').value = k?.notiz || '';
+  openModal('modal-kontakt');
+}
+function editKontakt(id) { openKontaktModal(id); }
+async function saveKontakt() {
+  const id = document.getElementById('k-id').value;
+  const data = {
+    firma: document.getElementById('k-firma').value.trim(),
+    ansprechpartner: document.getElementById('k-person').value.trim(),
+    telefon: document.getElementById('k-telefon').value.trim(),
+    email: document.getElementById('k-email').value.trim(),
+    adresse: document.getElementById('k-adresse').value.trim(),
+    notiz: document.getElementById('k-notiz').value.trim()
+  };
+  if (!data.firma) return alert('Bitte Firma eingeben');
+  if (id) await SB.update('nb82_kontakte', id, data);
+  else await SB.insert('nb82_kontakte', data);
+  kontakte = await SB.get('nb82_kontakte', 'order=firma.asc');
+  closeModal('modal-kontakt');
+  render();
+  toast('Kontakt gespeichert');
+}
+async function deleteKontakt(id) {
+  if (!confirm('Kontakt löschen?')) return;
+  await SB.delete('nb82_kontakte', id);
+  kontakte = await SB.get('nb82_kontakte', 'order=firma.asc');
+  render();
+  toast('Kontakt gelöscht');
 }
 
-// Drag & Drop scan
-const drop = document.getElementById('scan-drop');
-drop.addEventListener('dragover', e => { e.preventDefault(); drop.style.borderColor='var(--accent)'; });
-drop.addEventListener('dragleave', () => { drop.style.borderColor=''; });
-drop.addEventListener('drop', e => {
-  e.preventDefault(); drop.style.borderColor='';
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    const dt = new DataTransfer(); dt.items.add(file);
-    document.getElementById('scan-file').files = dt.files;
-    handleScanFile(document.getElementById('scan-file'));
-  }
-});
-
-// Close modal on bg click
+// ═══════════════════════════════════════════════════════════════
+// CLOSE MODAL ON BG CLICK
+// ═══════════════════════════════════════════════════════════════
 document.querySelectorAll('.modal-bg').forEach(bg => {
-  bg.addEventListener('click', e => { if(e.target===bg) bg.classList.remove('open'); });
+  bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); });
 });
 
+// ═══════════════════════════════════════════════════════════════
+// START
+// ═══════════════════════════════════════════════════════════════
 init();
 </script>
 </body>
